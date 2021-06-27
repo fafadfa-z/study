@@ -1,0 +1,20 @@
+1.    git status    	 查看当前目录仓库的状态
+2.    git init	             	 初始化git仓库
+3.    git add 文件	 将文件添加至追踪      只是将文件添加到了临时缓冲区
+
+4.   git commit -m "text commit"    将文件提交到Git仓库
+		-m 表示信息
+5.   git log   	 打印仓库提交日志
+6.   git branch              打印仓库分值情况
+7.   git branch a           创建名为“a”的分支
+8.   git checkout a        将目录切换至 a 
+9.   git merge a            将a分支合并到当前分支
+10. git branch -d a       删除a分支
+11. ssh-keygen -t rsa    通过rsa算法生成密钥
+12. ssh -T git@github.com    检测SSH 是否与github链接成功
+13. git reset --hard 6fcfc89   回溯版本
+14. git log –pretty=oneline   如果版本数太多了，用这个指令可以显示的少一点
+15. git checkout -- file          丢弃工作区的修改（注意一定要加）
+16. git remote add origin git@github.com:fafadfa-z/First-great-try.git
+		            	与远程库建立连接
+17 git push -u origin master 	将本地库推到云端
