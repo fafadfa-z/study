@@ -1,47 +1,21 @@
-#ifndef  _TREE_H
-#define  _TREE_H
+#pragma once
 
-template<typename T>
-class TreeNode
+
+typedef struct TreeNode treeNode;
+
+
+ struct TreeNode   // typedef 作用于结构体可别忘了。。。。。
 {
-public:
+	treeNode* left;
+	treeNode* right;
 
-	TreeNode(T value,);
-
-
-
-	T value;
-
-	TreeNode* right;
-	TreeNode* lift;
-};
-
-
-
-template<typename T> class Tree
-{
-public:
-
-
-
-
-private:
-
-
+	int value;
 
 };
 
+treeNode* treeBuild(int[][3],const int);
 
 
+void disTree(treeNode* tree);
 
-
-
-
-
-
-
-
-
-
-
-#endif // ! _TREE_H
+void disTree2(treeNode* tree);
