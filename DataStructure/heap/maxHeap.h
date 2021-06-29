@@ -3,6 +3,7 @@
 
 #include<vector>
 
+using std::vector;
 
 #if 0
 class HeapNode
@@ -29,9 +30,10 @@ class Heap
 {
 public:
 	Heap(int Size);
-
+	
+	void init(vector<int>);
 	void insert(int);
-	void deleteHeap(int);
+	int deleteHeap(int);
 
 
 private:
