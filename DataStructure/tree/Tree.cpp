@@ -7,56 +7,90 @@
 #include"tree.h"
 
 
-
-treeNode* treeBuild(int treeMessage[][3],const int num)
-{	
-	int i = 0;
-
-	int* record = (int*)malloc(sizeof(int)*num);
-
-	if (record == NULL) return NULL;
-
-	for (i = 0; i < num; ++i) record[i] = 0;
-
-
-	treeNode** tree = (treeNode**)malloc(sizeof(treeNode*)*num);   //二重指针的初始话一定要熟悉
-
-	if (tree == NULL) return NULL;
-
-	for (i = 0; i < num; ++i)
+void Tree::treeBuild(const vector<int>&nums)
+{
+	for (auto i : nums)
 	{
-		tree[i] = (treeNode*)malloc(sizeof(treeNode));
-		if (tree[i] == NULL) return NULL;
-	}
-		
-	for (i = 0; i < num; ++i)
-	{
-		tree[i]->value = treeMessage[i][0];
 
-		tree[i]->left  = treeMessage[i][1] == -1 ? NULL : (treeNode*)tree[treeMessage[i][1]];
-		tree[i]->right = treeMessage[i][2] == -1 ? NULL : (treeNode*)tree[treeMessage[i][2]];
 
-	
-		//treeMessage[i][1] == -1 ? tree[i]->left = NULL: (tree[i]->left = treeMessage[i][1]);   //  赋值运算符的优先级是高于三目运算符的，所以在最后要加括号
 
-		treeMessage[i][1] == -1 ? NULL : (record[treeMessage[i][1]])++;
-		treeMessage[i][2] == -1 ? NULL : (record[treeMessage[i][2]])++;
 
-		//printf("%d   %d\n", treeMessage[i][1],treeMessage[i][2]);
+
 
 	}
-
-	for (i = 0; i < num; ++i)	
-		if (!record[i])
-		{
-			free(record);      //若malloc 申请的内存被越界了，free时会报错
-
-			return tree[i];
-		}
-	return NULL;
 }
 
-void disTree(treeNode* tree)     //通过递归遍历
+void Tree::insert(const int x, TreeNode*& t)
+{
+	if (t == nullptr) t = new TreeNode(x);    // 如果走到头了，就新开一片空间，将它插入到这
+
+	else if (x < t->value)    // 往左子树上插
+	{
+		insert(x,t->left);
+
+
+		if (height(t->left) - height(t->right) == 2)
+			if (x < t->left->value)
+				rotateWithLeftChild(t);
+			else
+				doubleWithLeftChild(t);
+	}
+	else if (x > t->value)
+	{
+		insert(x, t->right);
+		if (height(t->left) - height(t->right) == -2)
+			if (x < t->left->value)
+				rotateWithRightChild(t);
+			else
+				doubleWithRightChild(t);
+	}
+
+	t->high = height(t->left)> height(t->right)? height(t->left)+1: height(t->right)+1;// 这玩意一定要在旋转之后再计算
+
+}
+void Tree::rotateWithLeftChild(TreeNode*& k2)
+{
+	TreeNode* k1 = k2->left;
+
+	 k2->left=k1->right;
+	 k1->right = k2;
+
+	 k2->high = k2->left->high > k2->right->high ? k2->left->high + 1 : k2->right->high + 1;
+	 k1->high = k1->left->high > k1->right->high ? k1->left->high + 1 : k1->right->high + 1;
+
+	 k2 = k1;
+}
+void Tree::doubleWithLeftChild(TreeNode*& k)
+{
+	rotateWithRightChild(k->left);
+	rotateWithLeftChild(k);
+}
+
+void Tree::rotateWithRightChild(TreeNode*& k)
+{
+	TreeNode* temp = k->right;
+
+	k->right = temp->left;      //这一步并不是给第一次旋转准备的，第一次之后的旋转中，这个位置可能会有数值
+
+	temp->left = k;
+
+
+	k->high= k->left->high > k->right->high ? k->left->high + 1 : k->right->high + 1;
+	temp->high = temp->left->high > temp->right->high ? temp->left->high + 1 : temp->right->high + 1;
+
+	k = temp;
+	
+}
+
+void Tree::doubleWithRightChild(TreeNode*& k)
+{
+	rotateWithLeftChild(k->right);
+	rotateWithRightChild(k);
+}
+
+
+
+void disTree(TreeNode* tree)     //通过递归遍历
 {
 	if (tree == NULL) return;
 
@@ -65,11 +99,11 @@ void disTree(treeNode* tree)     //通过递归遍历
 	disTree(tree->right);
 }
 
-void disTree2(treeNode* tree)	//层序遍历
+void disTree2(TreeNode* tree)	//层序遍历
 {
 	if (tree == NULL) return;
 
-	std::queue<treeNode*> que;  
+	std::queue<TreeNode*> que;
 
 	que.push(tree);
 
