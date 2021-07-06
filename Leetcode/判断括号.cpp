@@ -22,25 +22,22 @@ public:
         if (s[index] == '(' || s[index] == '[' || s[index] == '{')
         {
             char temp = s[index];
+            index++;
 
-            if (index < s.size() - 1) index++;
-
-            else return false;             //到最后了没找到第二个括号
-
-
-            if (search(s[index]) == search(temp) + 3)    //找到对应的括号
+            while (index <= s.size() - 1)
             {
-                return true;
+                if (search(s[index]) == search(temp) + 3)    //找到对应的括号
+                {
+                    index++;
+                    return true;
+                }
+                else if (digui(s, index) == false)   return false;
             }
-            else if (digui(s, index) == false)   return false;
-
         }
         return false;
     }
-
     int  search(char ch)
     {
-
         for (unsigned char i = 0; i < 6; ++i)
             if (str[i] == ch) return i;
         return -1;
@@ -48,9 +45,6 @@ public:
 
     string str = "([{)]}";
 };
-
-
-
 
 int main()
 {
