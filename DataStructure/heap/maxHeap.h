@@ -38,7 +38,7 @@ public:
 
 private:
 
-	inline bool full()
+	bool full()
 	{
 		return size == capacity;
 	}
